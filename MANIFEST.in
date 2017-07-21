@@ -1,0 +1,2 @@
+include versioneer.py
+include ibapi_grease/_version.py
