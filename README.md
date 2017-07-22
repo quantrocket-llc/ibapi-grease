@@ -1,5 +1,5 @@
 # ibapi-grease
-The official Interactive Brokers Python API has a few warts which make it run slowly. Specifically: [excessive debug logging](https://groups.io/g/twsapi/topic/4972510), and an [overly cautious lock on the socket connection](https://github.com/InteractiveBrokers/tws-api/issues/464) (the latter link is to a private GitHub repo for the IB API; request access [here](https://interactivebrokers.github.io/api_software_contribute.html)). `ibapi-grease` provides monkey patches that eliminate these bottlenecks by turning off the logging and removing the locks.
+The official Interactive Brokers Python API has a few design choices which make it run slowly. Specifically: [excessive debug logging](https://groups.io/g/twsapi/topic/4972510), and an [overly cautious lock on the socket connection](https://github.com/InteractiveBrokers/tws-api/issues/464) (private repo; request access [here](https://interactivebrokers.github.io/api_software_contribute.html)). `ibapi-grease` provides monkey patches that eliminate these bottlenecks by turning off the logging and removing the locks.
 
 As an example of the speedup, making a socket connection to TWS goes from taking a second or more without `ibapi-grease` to a few milliseconds with it.
 
