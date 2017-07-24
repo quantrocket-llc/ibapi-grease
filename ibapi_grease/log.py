@@ -21,12 +21,20 @@ def noop(*args, **kwargs):
     """
     return
 
-def silence_ibapi_logging():
+def silence_ibapi_logging(levels=["DEBUG", "INFO"]):
     """
     Silences the excessive ibapi logging to the root logger.
     """
+    levels = levels or ["DEBUG", "INFO"]
+
+    for level in levels:
+        if level not in ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"):
+            raise ValueError("unknown log level: {0}".format(level))
+
     for _, module_name, _ in pkgutil.iter_modules(ibapi.__path__):
         module = __import__("ibapi.{0}".format(module_name), fromlist="ibapi")
         if not hasattr(module, "logging"):
             continue
-        module.logging.debug = module.logging.info = module.logging.error = noop
+
+        for level in levels:
+            setattr(module.logging, level.lower(), noop)
